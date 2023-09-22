@@ -418,11 +418,22 @@ namespace ModAdjusterV2.Definitions.Blocks
 			{
 				def.MaxIntegrity = (float)maxIntegrityDef;
 			}
-			def.CriticalIntegrityRatio = criticalIntegrity / def.MaxIntegrity;
+
+			var newCriticalIntegrityRatio = criticalIntegrity / def.MaxIntegrity;
+			var buildProgressChange = BuildProgressModels != null && BuildProgressModels.Count > 0;
+			if (!buildProgressChange && def.CriticalIntegrityRatio > 0)
+            {
+				var ratioChange = newCriticalIntegrityRatio / def.CriticalIntegrityRatio;
+				foreach (var model in def.BuildProgressModels)
+                {
+					model.BuildRatioUpperBound *= ratioChange;
+                }
+            }
+			def.CriticalIntegrityRatio = newCriticalIntegrityRatio;
 			def.OwnershipIntegrityRatio = ownershipIntegrity / def.MaxIntegrity;
 			#endregion
 
-			if (BuildProgressModels != null && BuildProgressModels.Count > 0)
+			if (buildProgressChange)
 			{
 				BuildProgressModels.Sort((MyObjectBuilder_CubeBlockDefinition.BuildProgressModel a, MyObjectBuilder_CubeBlockDefinition.BuildProgressModel b) => a.BuildPercentUpperBound.CompareTo(b.BuildPercentUpperBound));
 				def.BuildProgressModels = new MyCubeBlockDefinition.BuildProgressModel[BuildProgressModels.Count];
