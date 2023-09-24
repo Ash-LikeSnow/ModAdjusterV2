@@ -348,13 +348,13 @@ namespace ModAdjusterV2.Definitions.Blocks
 				def.CubeDefinition = myCubeDefinition;
 			}
 
-            #region Components
-            float mass = 0f;
+			var buildProgressChange = BuildProgressModels != null && BuildProgressModels.Count > 0;
+
+			#region Components
+			float mass = 0f;
 			float criticalIntegrity = 0f;
 			float ownershipIntegrity = 0f;
 			var criticalComp = CriticalComponent ?? ob.CriticalComponent;
-			var maxIntegrityDef = MaxIntegrity ?? ob.MaxIntegrity;
-			def.MaxIntegrityRatio = 1f;
 			if (Components != null && Components.Length != 0)
 			{
 				def.Components = new MyCubeBlockDefinition.Component[Components.Length];
@@ -403,34 +403,21 @@ namespace ModAdjusterV2.Definitions.Blocks
 				def.IntegrityPointsPerSec = def.MaxIntegrity / (BuildTimeSeconds ?? ob.BuildTimeSeconds);
 				def.DisassembleRatio = DisassembleRatio ?? ob.DisassembleRatio;
 
-				if (maxIntegrityDef != 0)
-				{
-					def.MaxIntegrityRatio = (float)MaxIntegrity / def.MaxIntegrity;
-					def.DeformationRatio /= def.MaxIntegrityRatio;
-				}
-
 				if (!MyPerGameSettings.Destruction)
 				{
 					def.Mass = mass;
 				}
+
+				if (MaxIntegrity.HasValue) def.MaxIntegrity = MaxIntegrity.Value;
+
+				SetRatios(def, criticalIntegrity, ownershipIntegrity, buildProgressChange);
 			}
-			else if (maxIntegrityDef != 0)
+			else if (MaxIntegrity.HasValue)
 			{
-				def.MaxIntegrity = (float)maxIntegrityDef;
+				def.MaxIntegrity = MaxIntegrity.Value;
+				SetRatios(def, criticalIntegrity, ownershipIntegrity, buildProgressChange);
 			}
 
-			var newCriticalIntegrityRatio = criticalIntegrity / def.MaxIntegrity;
-			var buildProgressChange = BuildProgressModels != null && BuildProgressModels.Count > 0;
-			if (!buildProgressChange && def.CriticalIntegrityRatio > 0)
-            {
-				var ratioChange = newCriticalIntegrityRatio / def.CriticalIntegrityRatio;
-				foreach (var model in def.BuildProgressModels)
-                {
-					model.BuildRatioUpperBound *= ratioChange;
-                }
-            }
-			def.CriticalIntegrityRatio = newCriticalIntegrityRatio;
-			def.OwnershipIntegrityRatio = ownershipIntegrity / def.MaxIntegrity;
 			#endregion
 
 			if (buildProgressChange)
@@ -501,6 +488,21 @@ namespace ModAdjusterV2.Definitions.Blocks
 				}
 			}
 
+		}
+
+		public void SetRatios(MyCubeBlockDefinition def, float criticalIntegrity, float ownershipIntegrity, bool buildProgressChange)
+        {
+			var newCriticalIntegrityRatio = criticalIntegrity / def.MaxIntegrity;
+			if (!buildProgressChange && def.CriticalIntegrityRatio > 0)
+			{
+				var ratioChange = newCriticalIntegrityRatio / def.CriticalIntegrityRatio;
+				foreach (var model in def.BuildProgressModels)
+				{
+					model.BuildRatioUpperBound *= ratioChange;
+				}
+			}
+			def.CriticalIntegrityRatio = newCriticalIntegrityRatio;
+			def.OwnershipIntegrityRatio = ownershipIntegrity / def.MaxIntegrity;
 		}
 
 		public void InitPressurization(MyCubeBlockDefinition def)
