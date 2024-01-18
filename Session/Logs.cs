@@ -79,13 +79,13 @@ namespace ModAdjusterV2.Session
             TextWriter.Dispose();
         }
 
-        internal static void LogException(Exception ex, bool inner = true)
+        internal static void LogException(Exception ex)
         {
             var hasInner = ex.InnerException != null;
             var text = !hasInner ? $"{ex.Message}\n{ex.StackTrace}" : ex.Message;
             WriteLine(text);
             if (hasInner)
-                LogException(ex.InnerException, true);
+                LogException(ex.InnerException);
         }
 
     }

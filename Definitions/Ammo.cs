@@ -41,7 +41,7 @@ namespace ModAdjusterV2.Definitions
 				if (MaxTrajectory.HasValue) def.MaxTrajectory = MaxTrajectory.Value;
 				if (BackkickForce.HasValue) def.BackkickForce = BackkickForce.Value;
 				if (ExplosiveDamageMultiplier.HasValue) def.ExplosiveDamageMultiplier = ExplosiveDamageMultiplier.Value;
-				if (!IsExplosive.HasValue) def.IsExplosive = IsExplosive.Value;
+				if (IsExplosive.HasValue) def.IsExplosive = IsExplosive.Value;
 				if (!string.IsNullOrEmpty(PhysicalMaterial)) def.PhysicalMaterial = MyStringHash.GetOrCompute(PhysicalMaterial);
 			}
 		}
