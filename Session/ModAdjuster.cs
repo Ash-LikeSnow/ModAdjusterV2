@@ -46,6 +46,8 @@ namespace ModAdjusterV2.Session
                 if (!MyAPIGateway.Utilities.FileExistsInModLocation(PATH, mod))
                     continue;
 
+                Logs.WriteLine("Loading filenames from ModAdjusterFiles.txt for mod " + mod.PublishedFileId + " - " + mod.FriendlyName);
+
                 using (var reader = MyAPIGateway.Utilities.ReadFileInModLocation(PATH, mod))
                 {
                     while (reader.Peek() != -1)
@@ -62,7 +64,11 @@ namespace ModAdjusterV2.Session
 
             var path = "Data\\ModAdjuster\\" + name;
             if (!MyAPIGateway.Utilities.FileExistsInModLocation(path, mod))
+            {
+                Logs.WriteLine("Failed to find file " + name + " in mod " + mod.PublishedFileId + " - " + mod.FriendlyName);
                 return;
+            }
+            Logs.WriteLine("Loading definitions from file " + name + " in mod " + mod.PublishedFileId + " - " + mod.FriendlyName);
 
             Definitions.Definitions definitions = null;
             using (var reader = MyAPIGateway.Utilities.ReadFileInModLocation(path, mod))
@@ -144,6 +150,12 @@ namespace ModAdjusterV2.Session
             for (int i = 0; i < classes.Length; i++)
             {
                 var cClass = classes[i];
+
+                if (string.IsNullOrEmpty(cClass.Name))
+                {
+                    Logs.WriteLine($"Failed to load Block Category definition: <Name> field must be present!");
+                    continue;
+                }
 
                 MyGuiBlockCategoryDefinition category;
                 if (!categories.TryGetValue(cClass.Name, out category))
