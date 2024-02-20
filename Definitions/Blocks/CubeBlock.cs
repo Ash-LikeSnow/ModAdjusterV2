@@ -399,9 +399,8 @@ namespace ModAdjusterV2.Definitions.Blocks
 					def.Components[i] = component;
 				}
 
-				def.MaxIntegrity = integrity;
-				def.IntegrityPointsPerSec = def.MaxIntegrity / (BuildTimeSeconds ?? ob.BuildTimeSeconds);
-				def.DisassembleRatio = DisassembleRatio ?? ob.DisassembleRatio;
+				var buildTime = BuildTimeSeconds ?? def.MaxIntegrity / def.IntegrityPointsPerSec;
+                def.MaxIntegrity = integrity;
 
 				if (!MyPerGameSettings.Destruction)
 				{
@@ -410,12 +409,18 @@ namespace ModAdjusterV2.Definitions.Blocks
 
 				if (MaxIntegrity.HasValue) def.MaxIntegrity = MaxIntegrity.Value;
 
-				SetRatios(def, criticalIntegrity, ownershipIntegrity, buildProgressChange);
+                def.IntegrityPointsPerSec = def.MaxIntegrity / buildTime;
+                def.DisassembleRatio = DisassembleRatio ?? ob.DisassembleRatio;
+
+                SetRatios(def, criticalIntegrity, ownershipIntegrity, buildProgressChange);
 			}
 			else if (MaxIntegrity.HasValue)
-			{
-				def.MaxIntegrity = MaxIntegrity.Value;
-				SetRatios(def, criticalIntegrity, ownershipIntegrity, buildProgressChange);
+            {
+                var buildTime = BuildTimeSeconds ?? def.MaxIntegrity / def.IntegrityPointsPerSec;
+                def.MaxIntegrity = MaxIntegrity.Value;
+                def.IntegrityPointsPerSec = def.MaxIntegrity / buildTime;
+
+                SetRatios(def, criticalIntegrity, ownershipIntegrity, buildProgressChange);
 			}
 
 			#endregion
