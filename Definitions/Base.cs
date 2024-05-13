@@ -74,7 +74,8 @@ namespace ModAdjusterV2.Definitions
 	[XmlInclude(typeof(WeaponDefinition))]
 	[XmlInclude(typeof(SpawnGroupDefinition))]
 	[XmlInclude(typeof(VoxelMaterialDefinition))]
-	public class Definition
+    [XmlInclude(typeof(HudDefinition))]
+    public class Definition
 	{
 		public SerializableDefinitionId Id;
 

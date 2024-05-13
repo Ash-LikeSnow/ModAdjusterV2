@@ -165,6 +165,7 @@
     <Compile Include="Definitions\HandItems.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Definitions\HUD.cs" />
     <Compile Include="Definitions\Particles.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
