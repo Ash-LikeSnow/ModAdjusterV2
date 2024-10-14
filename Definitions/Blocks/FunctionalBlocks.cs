@@ -1065,6 +1065,7 @@ namespace ModAdjusterV2.Definitions.Blocks
 
         public Vector3D? WardrobeCharacterOffset;
 
+        [XmlArrayItem("Name")]
         public string[] CustomWardRobeNames;
 
         public override void Load(MyDefinitionBase definitionBase, string path = null)

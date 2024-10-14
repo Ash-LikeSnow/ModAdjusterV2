@@ -22,8 +22,6 @@ namespace ModAdjusterV2.Definitions
 
 		public bool? IsEncounter;
 
-		public bool? IsPirate;
-
 		public bool? IsCargoShip;
 
 		public bool? ReactorsOn;
@@ -81,7 +79,6 @@ namespace ModAdjusterV2.Definitions
 
 			if (IsEncounter.HasValue) def.IsEncounter = IsEncounter.Value;
 			if (IsCargoShip.HasValue) def.IsCargoShip = IsCargoShip.Value;
-			if (IsPirate.HasValue) def.IsPirate = IsPirate.Value;
 			if (ReactorsOn.HasValue) def.ReactorsOn = ReactorsOn.Value;
 		}
     }
