@@ -666,6 +666,14 @@ namespace ModAdjusterV2.Definitions.Blocks
 
         public float? PowerEfficiency;
 
+        public string ShipJumpDriveChargingSound;
+
+        public string ShipJumpDriveJumpInSound;
+
+        public string ShipJumpDriveJumpOutSound;
+
+        public string JumpParticleEffect;
+
         public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
             base.Load(definitionBase, path);
@@ -679,6 +687,11 @@ namespace ModAdjusterV2.Definitions.Blocks
             if (MinJumpDistance.HasValue) def.MinJumpDistance = MinJumpDistance.Value;
             if (MaxJumpMass.HasValue) def.MaxJumpMass = MaxJumpMass.Value;
             if (PowerEfficiency.HasValue) def.PowerEfficiency = PowerEfficiency.Value;
+
+            if (!string.IsNullOrEmpty(ShipJumpDriveChargingSound)) def.ChargingSound = new MySoundPair(ShipJumpDriveChargingSound, true);
+            if (!string.IsNullOrEmpty(ShipJumpDriveJumpInSound)) def.JumpInSound = new MySoundPair(ShipJumpDriveJumpInSound, true);
+            if (!string.IsNullOrEmpty(ShipJumpDriveJumpOutSound)) def.JumpOutSound = new MySoundPair(ShipJumpDriveJumpOutSound, true);
+            if (!string.IsNullOrEmpty(JumpParticleEffect)) def.JumpParticleEffect = JumpParticleEffect;
         }
     }
 
@@ -806,6 +819,8 @@ namespace ModAdjusterV2.Definitions.Blocks
 
         public string LightDummyName;
 
+        public string LightOnlyNoEffectsDummyName;
+
         public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
             base.Load(definitionBase, path);
@@ -826,6 +841,7 @@ namespace ModAdjusterV2.Definitions.Blocks
             if (!string.IsNullOrEmpty(PointLightEmissiveMaterial)) def.PointLightEmissiveMaterial = PointLightEmissiveMaterial;
             if (!string.IsNullOrEmpty(SpotLightEmissiveMaterial)) def.SpotLightEmissiveMaterial = SpotLightEmissiveMaterial;
             if (!string.IsNullOrEmpty(LightDummyName)) def.LightDummyName = LightDummyName;
+            if (!string.IsNullOrEmpty(LightOnlyNoEffectsDummyName)) def.LightOnlyNoEffectsDummyName = LightOnlyNoEffectsDummyName;
         }
     }
 
@@ -864,6 +880,8 @@ namespace ModAdjusterV2.Definitions.Blocks
 
         public string TopPart;
 
+        public string MediumTopPart;
+
         public float? SafetyDetach;
 
         public float? SafetyDetachMin;
@@ -878,6 +896,7 @@ namespace ModAdjusterV2.Definitions.Blocks
 
             var part = TopPart ?? RotorPart;
             if (!string.IsNullOrEmpty(part)) def.TopPart = part;
+            if (!string.IsNullOrEmpty(MediumTopPart)) def.MediumTopPart = MediumTopPart;
             if (SafetyDetach.HasValue) def.SafetyDetach = SafetyDetach.Value;
             if (SafetyDetachMin.HasValue) def.SafetyDetachMin = SafetyDetachMin.Value;
             if (SafetyDetachMax.HasValue) def.SafetyDetachMax = SafetyDetachMax.Value;
@@ -1569,9 +1588,15 @@ namespace ModAdjusterV2.Definitions.Blocks
         //readonly property
         //public float? AssemblySpeed;
 
+        public bool? IgnoreEfficiencyMultiplier;
+
         public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
             base.Load(definitionBase, path);
+
+            var def = definitionBase as MyAssemblerDefinition;
+
+            if (IgnoreEfficiencyMultiplier.HasValue) def.IgnoreEfficiencyMultiplier = IgnoreEfficiencyMultiplier.Value;
         }
     }
 
@@ -1976,6 +2001,8 @@ namespace ModAdjusterV2.Definitions.Blocks
 
         public float? AutoUnlockTime_Max;
 
+        public Vector3? ConnectDirection;
+
         public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
             base.Load(definitionBase, path);
@@ -1984,6 +2011,7 @@ namespace ModAdjusterV2.Definitions.Blocks
 
             if (AutoUnlockTime_Min.HasValue) def.AutoUnlockTime_Min = AutoUnlockTime_Min.Value;
             if (AutoUnlockTime_Max.HasValue) def.AutoUnlockTime_Max = AutoUnlockTime_Max.Value;
+            if (ConnectDirection.HasValue) def.ConnectDirection = ConnectDirection.Value;
         }
     }
     #endregion
@@ -2165,6 +2193,21 @@ namespace ModAdjusterV2.Definitions.Blocks
 
         public Vector3D? ParticleOffset;
 
+        public float? DiscardingMultiplier;
+
+        public float? Speed;
+
+        public string[] CounterRotatingSubparts;
+
+        public string DustEffect;
+
+        public string DustStoneEffect;
+
+        public string SparksEffect;
+
+        public string DrillingMaterialName;
+
+
         public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
             base.Load(definitionBase, path);
@@ -2175,6 +2218,14 @@ namespace ModAdjusterV2.Definitions.Blocks
             if (CutOutRadius.HasValue) def.CutOutRadius = CutOutRadius.Value;
             if (CutOutOffset.HasValue) def.CutOutOffset = CutOutOffset.Value;
             if (ParticleOffset.HasValue) def.ParticleOffset = ParticleOffset.Value;
+
+            if (DiscardingMultiplier.HasValue) def.DiscardingMultiplier = DiscardingMultiplier.Value;
+            if (Speed.HasValue) def.Speed = Speed.Value;
+            if (CounterRotatingSubparts != null && CounterRotatingSubparts.Length > 0) def.CounterRotatingSubparts = CounterRotatingSubparts;
+            if (!string.IsNullOrEmpty(DustEffect)) def.DustEffect = DustEffect;
+            if (!string.IsNullOrEmpty(DustStoneEffect)) def.DustStoneEffect = DustStoneEffect;
+            if (!string.IsNullOrEmpty(SparksEffect)) def.SparksEffect = SparksEffect;
+            if (!string.IsNullOrEmpty(DrillingMaterialName)) def.DrillingMaterialName = DrillingMaterialName;
         }
     }
 

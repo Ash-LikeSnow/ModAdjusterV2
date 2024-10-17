@@ -26,7 +26,12 @@ namespace ModAdjusterV2.Definitions
 
 		public bool? ReactorsOn;
 
-		public override void Load(MyDefinitionBase definitionBase, string path = null)
+		public bool? IsGlobalEncounter;
+
+		public bool? RandomizedPaint;
+
+
+        public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
             base.Load(definitionBase, path);
 
@@ -80,7 +85,10 @@ namespace ModAdjusterV2.Definitions
 			if (IsEncounter.HasValue) def.IsEncounter = IsEncounter.Value;
 			if (IsCargoShip.HasValue) def.IsCargoShip = IsCargoShip.Value;
 			if (ReactorsOn.HasValue) def.ReactorsOn = ReactorsOn.Value;
-		}
+			if (IsGlobalEncounter.HasValue) def.IsGlobalEncounter = IsGlobalEncounter.Value;
+			if (RandomizedPaint.HasValue) def.RandomizedPaint = RandomizedPaint.Value;
+
+        }
     }
 
 }

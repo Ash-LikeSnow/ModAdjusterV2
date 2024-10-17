@@ -200,7 +200,10 @@ namespace ModAdjusterV2.Definitions.Blocks
 
 		public bool? UseNeighbourOxygenRooms;
 
-		public override void Load(MyDefinitionBase definitionBase, string path = null)
+		public bool? AllowInteractionThroughBlock;
+
+
+        public override void Load(MyDefinitionBase definitionBase, string path = null)
         {
 			base.Load(definitionBase, path);
 
@@ -493,6 +496,7 @@ namespace ModAdjusterV2.Definitions.Blocks
 				}
 			}
 
+			if (AllowInteractionThroughBlock.HasValue) def.AllowInteractionThroughBlock = AllowInteractionThroughBlock.Value;
 		}
 
 		public void SetRatios(MyCubeBlockDefinition def, float criticalIntegrity, float ownershipIntegrity, bool buildProgressChange)
